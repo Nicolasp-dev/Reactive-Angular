@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
-import { finalize, map } from "rxjs/operators";
+import { map } from "rxjs/operators";
 import { LoadingService } from "../loading/loading.service";
 import { Course, sortCoursesBySeqNo } from "../model/course";
 import { CoursesService } from "../services/courses.service";
