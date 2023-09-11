@@ -1,3 +1,4 @@
+import { CoursesStore } from "./../services/courses.store";
 import { MessagesServices } from "./../messages/messages.service";
 import { AfterViewInit, Component, Inject } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
@@ -22,9 +23,8 @@ export class CourseDialogComponent implements AfterViewInit {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<CourseDialogComponent>,
-    private coursesService: CoursesService,
-    private loadingService: LoadingService,
     private messagesServices: MessagesServices,
+    private coursesStore: CoursesStore,
     // External data injection into Dialog -> "Course data"
     @Inject(MAT_DIALOG_DATA) course: Course
   ) {
@@ -42,22 +42,10 @@ export class CourseDialogComponent implements AfterViewInit {
 
   save() {
     const changes = this.form.value;
-    const saveCourse$ = this.coursesService
-      .saveCourse(this.course.id, changes)
-      .pipe(
-        catchError((err) => {
-          const message = "Could not save course";
-          this.messagesServices.showErrors(message);
-          console.log(message, err);
-          return throwError(err);
-        })
-      );
 
-    this.loadingService
-      .showLoaderUntilCompleted(saveCourse$)
-      .subscribe((response) => {
-        this.dialogRef.close(response);
-      });
+    this.coursesStore.saveCourse(this.course.id, changes).subscribe();
+
+    this.dialogRef.close(changes);
   }
 
   close() {
