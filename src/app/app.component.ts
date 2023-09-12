@@ -1,3 +1,4 @@
+import { AuthStore } from "./services/auth.store";
 import { Component, OnInit } from "@angular/core";
 
 @Component({
@@ -6,9 +7,11 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./app.component.css"],
 })
 export class AppComponent implements OnInit {
-  constructor() {}
+  constructor(public authStore: AuthStore) {}
 
   ngOnInit() {}
 
-  logout() {}
+  logout() {
+    this.authStore.logout();
+  }
 }
